@@ -1,0 +1,12 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Display
+Bundle-SymbolicName: org.zhangbai.display;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Bundle-Activator: org.zhangbai.display.Activator
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime,
+ gnu.io.rxtx;bundle-version="2.1.7",
+ gnu.io.rxtx.source;bundle-version="2.1.7"
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-ActivationPolicy: lazy

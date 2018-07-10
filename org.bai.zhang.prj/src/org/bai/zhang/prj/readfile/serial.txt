@@ -1,0 +1,28 @@
+laserSerialPort			COM00
+telescopeSerialPort		COM11
+
+command_01_online_on		= addr,11,00,00,00,CC,33,C3,3C
+command_02_offline_off		= 01,11,00,11,00,CC,33,C3,3C
+command_03_voltage			= addr,22,V1H,V1L,00,00,CC,33,C3,3C
+command_04_freq				= addr,44,00,freqQ,,00,00,CC,33,C3,3C
+command_05_warm_up_on		= addr,55,00,55,00,00,CC,33,C3,3C
+command_06_warm_up_off		= addr,55,00,00,00,00,CC,33,C3,3C
+command_07_start_on			= addr,66,00,66,00,00,CC,33,C3,3C
+command_08_start_off		= addr,66,00,00,00,00,CC,33,C3,3C
+command_09_out_timer_on		= addr,77,00,77,00,00,CC,33,C3,3C
+command_10_in_timer_on		= addr,77,00,00,00,00,CC,33,C3,3C
+command_11_water_problem	= addr,88,00,01,00,00,CC,33,C3,3C
+command_12_swtich_problem	= addr,88,00,02,00,00,CC,33,C3,3C
+command_13_swtich_is_ok		= addr,88,00,03,00,00,CC,33,C3,3C
+command_14_water_is_ok		= addr,88,00,04,00,00,CC,33,C3,3C
+
+command_move_right_start	= Me# Move Telescope East at current slew rate
+command_move_up_start		= Mn# Move Telescope North at current slew rate
+command_move_down_start		= Ms# Move Telescope South at current slew rate
+command_move_left_start		= Mw# Move Telescope West at current slew rate
+
+command_move_right_stop		= Qe# Halt eastward Slews
+command_move_up_stop		= Qn# Halt northward Slews
+command_move_down_stop		= Qs# Halt southward Slews
+command_move_left_stop		= Qw# Halt Westward Slews
+

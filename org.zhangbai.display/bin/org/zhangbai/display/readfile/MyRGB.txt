@@ -1,0 +1,5 @@
+// format like color_name=Red Green Blue
+RED   = FF, 00, 00 // index = 0
+GREEN = 00, FF, 00 // index = 1
+BLACK = FF, FF, FF // index = 2
+WHITE = 00, 00, 00 // index = 3

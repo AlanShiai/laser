@@ -1,0 +1,35 @@
+laserSerialPort			COM3
+laserSerialPortBaudrate	19200
+defaultSerialCmdInterval 1
+
+command_01_online_on		= 0111000000CC33C33C
+command_02_offline_off		= 0111001100CC33C33C
+command_03_voltage			= 012202EE02EE0000CC33C33C
+command_04_dividing_freq	= 013300010000CC33C33C
+command_04_freq				= 0144000A0000CC33C33C
+command_05_warm_up_on		= 015500550000CC33C33C
+command_06_warm_up_off		= 015500000000CC33C33C
+command_07_start_on			= 016600660000CC33C33C
+command_08_start_off		= 015500000000CC33C33C
+command_09_out_timer_on		= 017700770000CC33C33C
+command_10_in_timer_on		= 017700000000CC33C33C
+command_11_Q_on				= 01BB00BB0000CC33C33C
+command_12_Q_off			= 01BB00000000CC33C33C
+
+
+telescopeSerialPort			COM4
+telescopeSerialPortBaudrate 9600
+defaultTeleMoveCmdInterval 2
+
+command_move_right_start	= #:Me#
+command_move_up_start		= #:Mn#
+command_move_down_start		= #:Ms#
+command_move_left_start		= #:Mw#
+
+command_move_right_stop		= #:Qe#
+command_move_up_stop		= #:Qn#
+command_move_down_stop		= #:Qs#
+command_move_left_stop		= #:Qw#
+
+command_move_stop 			= #:Q#
+command_get_angle 			= #:Gz#
