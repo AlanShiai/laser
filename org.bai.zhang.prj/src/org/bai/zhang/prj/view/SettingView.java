@@ -14,6 +14,7 @@ import org.bai.zhang.prj.Activator;
 import org.bai.zhang.prj.jni.NativeClass;
 import org.bai.zhang.prj.readfile.ReadFile;
 import org.bai.zhang.prj.sample.dialog.MyRGB;
+import org.bai.zhang.prj.sample.dialog.SerialTool;
 import org.bai.zhang.prj.sample.dialog.TelescopeMove;
 import org.bai.zhang.prj.sample.dialog.WorkTestObject;
 import org.bai.zhang.prj.sample.dialog.WorkTestTask;
@@ -21,6 +22,7 @@ import org.bai.zhang.prj.sample.dialog.WorkTestObject.Status;
 import org.bai.zhang.prj.util.MergeDatum;
 import org.bai.zhang.prj.util.MyDate;
 import org.bai.zhang.prj.util.MyFile;
+import org.bai.zhang.prj.util.Serial;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.PaintEvent;
@@ -314,6 +316,11 @@ public class SettingView extends ViewPart {
 		GridData gridData = new GridData(SWT.FILL, SWT.FILL, true, true);
 		gridData.horizontalSpan = 2;
 		laserInitButton.setLayoutData(gridData);
+		laserInitButton.addSelectionListener(new SelectionAdapter() {
+			public void widgetDefaultSelected(SelectionEvent e) {
+				WorkTestTask.sendCommand(Serial.COMMAND_01_ONLINE_ON);
+			}
+		});
 
 		Label voltageLabel = new Label(top, SWT.NONE);
 		voltageLabel.setText("Voltage : ");

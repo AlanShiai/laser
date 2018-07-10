@@ -7,6 +7,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
 import java.util.TimerTask;
 
 import org.bai.zhang.prj.util.Log;
@@ -194,6 +195,48 @@ public abstract class WorkTestTask extends TimerTask {
 			}
 		});
 		return laserTasks;
+	}
+	
+	private static List<WorkTestTask> executeOneCommand(final String command) {
+		List<WorkTestTask> laserTasks = new ArrayList<WorkTestTask>();
+		laserTasks.add(new WorkTestTask(10) {
+			public void run() {
+				noteSerialCommand("Open serial port : " + Serial.getLaserSerialPort()); 
+				noteSerialCommand("Open serial port baudrate : " + Serial.getLaserSerialPortBaudrate()); 
+				if ( ! isDebug) {
+					serialPort = SerialTool.openPort(Serial.getLaserSerialPort(), Serial.getLaserSerialPortBaudrate());
+				}
+			}
+		});
+		laserTasks.add(new WorkTestTask() {
+			public void run() {
+				noteSerialCommand("exec command : " + Serial.getCommand(command)); 
+				if (isDebug) {
+					System.out.println(MyDate.getMiddleDateString() + " : " +  command); 
+				} else {
+					SerialTool.sendHexToPort(serialPort, Serial.getCommand(command));
+				}
+			}
+		});
+		laserTasks.add(new WorkTestTask() {
+			public void run() {
+				noteSerialCommand("Close serial port : " + Serial.getLaserSerialPort()); 
+				if ( ! isDebug) {
+					SerialTool.closePort(serialPort);
+				}
+			}
+		});
+		return laserTasks;
+	}
+	
+	public static void sendCommand(String command) {
+		long delay = 0;
+		Timer timer = new Timer(true);
+		for (WorkTestTask laserTask : executeOneCommand(command)) {
+			delay = delay + laserTask.getDelay();
+			timer.schedule(laserTask, delay);
+		}
+		
 	}
 
 
