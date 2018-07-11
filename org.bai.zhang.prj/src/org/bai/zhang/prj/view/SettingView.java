@@ -14,7 +14,6 @@ import org.bai.zhang.prj.Activator;
 import org.bai.zhang.prj.jni.NativeClass;
 import org.bai.zhang.prj.readfile.ReadFile;
 import org.bai.zhang.prj.sample.dialog.MyRGB;
-import org.bai.zhang.prj.sample.dialog.SerialTool;
 import org.bai.zhang.prj.sample.dialog.TelescopeMove;
 import org.bai.zhang.prj.sample.dialog.WorkTestObject;
 import org.bai.zhang.prj.sample.dialog.WorkTestTask;
@@ -317,14 +316,14 @@ public class SettingView extends ViewPart {
 		gridData.horizontalSpan = 2;
 		laserInitButton.setLayoutData(gridData);
 		laserInitButton.addSelectionListener(new SelectionAdapter() {
-			public void widgetDefaultSelected(SelectionEvent e) {
+			public void widgetSelected(SelectionEvent e) {
 				WorkTestTask.sendCommand(Serial.COMMAND_01_ONLINE_ON);
 			}
 		});
 
 		Label voltageLabel = new Label(top, SWT.NONE);
 		voltageLabel.setText("Voltage : ");
-		Combo voltageCombo = new Combo(top, SWT.BORDER);
+		final Combo voltageCombo = new Combo(top, SWT.BORDER);
 		voltageCombo.setItems(new String[]{"500v", "550v", "600v", "650v", "700v", "750v"});
 		voltageCombo.setText("750v");
 		//		Text voltageText = new Text(top, SWT.BORDER);
@@ -334,7 +333,7 @@ public class SettingView extends ViewPart {
 
 		Label freqLabel = new Label(top, SWT.NONE);
 		freqLabel.setText("Frequency : ");
-		Combo freqCombo = new Combo(top, SWT.BORDER);
+		final Combo freqCombo = new Combo(top, SWT.BORDER);
 		freqCombo.setItems(new String[]{"1Hz", "2Hz", "5Hz", "10Hz"});
 		freqCombo.setText("10Hz");
 		//		Text freqText = new Text(top, SWT.BORDER);
@@ -347,24 +346,45 @@ public class SettingView extends ViewPart {
 		gridData = new GridData(SWT.FILL, SWT.FILL, true, true);
 		gridData.horizontalSpan = 2;
 		laserVoltageFreqApplyButton.setLayoutData(gridData);
+		laserVoltageFreqApplyButton.addSelectionListener(new SelectionAdapter() {
+			public void widgetSelected(SelectionEvent e) {
+				WorkTestTask.sendCommand(Serial.getSetVoltageKey(voltageCombo.getText()));
+				WorkTestTask.sendCommand(Serial.getSetFrepKey(freqCombo.getText()));
+			}
+		});
 
 		Button laserWarmUpButton = new Button(top, SWT.NONE);
 		laserWarmUpButton.setText("Laser Warm Up");
 		gridData = new GridData(SWT.FILL, SWT.FILL, true, true);
 		gridData.horizontalSpan = 2;
 		laserWarmUpButton.setLayoutData(gridData);
+		laserVoltageFreqApplyButton.addSelectionListener(new SelectionAdapter() {
+			public void widgetSelected(SelectionEvent e) {
+				WorkTestTask.sendCommand(Serial.COMMAND_05_WARM_UP_ON);
+			}
+		});
 
 		Button laserLaunchButton = new Button(top, SWT.NONE);
 		laserLaunchButton.setText("Laser Launch");
 		gridData = new GridData(SWT.FILL, SWT.FILL, true, true);
 		gridData.horizontalSpan = 2;
 		laserLaunchButton.setLayoutData(gridData);
+		laserVoltageFreqApplyButton.addSelectionListener(new SelectionAdapter() {
+			public void widgetSelected(SelectionEvent e) {
+				WorkTestTask.sendCommand(Serial.COMMAND_07_START_ON);
+			}
+		});
 
 		Button laserShutDownButton = new Button(top, SWT.NONE);
 		laserShutDownButton.setText("Laser Shut Down");
 		gridData = new GridData(SWT.FILL, SWT.FILL, true, true);
 		gridData.horizontalSpan = 2;
 		laserShutDownButton.setLayoutData(gridData);
+		laserVoltageFreqApplyButton.addSelectionListener(new SelectionAdapter() {
+			public void widgetSelected(SelectionEvent e) {
+				WorkTestTask.sendCommand(Serial.COMMAND_08_START_OFF);
+			}
+		});
 
 	}
 

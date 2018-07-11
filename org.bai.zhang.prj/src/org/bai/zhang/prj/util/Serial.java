@@ -32,6 +32,17 @@ public class Serial {
 	public final static String COMMAND_11_Q_ON				= "command_11_Q_on";
 	public final static String COMMAND_12_Q_OFF				= "command_12_Q_off";
 	
+	public final static String command_03_500v_voltage		= "command_03_500v_voltage";
+	public final static String command_03_550v_voltage		= "command_03_550v_voltage";
+	public final static String command_03_600v_voltage		= "command_03_600v_voltage";
+	public final static String command_03_650v_voltage		= "command_03_650v_voltage";
+	public final static String command_03_700v_voltage		= "command_03_700v_voltage";
+	public final static String command_03_750v_voltage		= "command_03_750v_voltage";
+	public final static String command_04_01Hz_freq			= "command_04_01Hz_freq";
+	public final static String command_04_02Hz_freq			= "command_04_02Hz_freq";
+	public final static String command_04_05Hz_freq			= "command_04_05Hz_freq";
+	public final static String command_04_10Hz_freq			= "command_04_10Hz_freq";
+	
 	public final static String COMMAND_MOVE_RIGHT_START		= "command_move_right_start";
 	public final static String COMMAND_MOVE_UP_START		= "command_move_up_start";
 	public final static String COMMAND_MOVE_DONW_START		= "command_move_down_start";
@@ -59,6 +70,7 @@ public class Serial {
 			int index;
 			String commandKey, command;
 			File serial = new File(Platform.getLocation().toFile().getParent(), "serial.txt");
+			System.out.println(serial.getAbsolutePath());
 			for (String line : ReadFile.readFile(serial)) {
 				if (line.contains("laserSerialPortBaudrate")) {
 					laserSerialPortBaudrate = Integer.parseInt(line.substring("laserSerialPortBaudrate".length()).trim());
@@ -105,6 +117,37 @@ public class Serial {
 	public static int getTelescopeSerialPortBaudrate () {
 		return telescopeSerialPortBaudrate;
 	}
+	
+	public static String getSetVoltageKey(String voltage) {
+		String key = "command_03_750v_voltage";
+		if (voltage.equals("500v")) {
+			key = "command_03_500v_voltage";
+		} else if (voltage.equals("550v")) {
+			key = "command_03_550v_voltage";
+		} else if (voltage.equals("600v")) {
+			key = "command_03_600v_voltage";
+		} else if (voltage.equals("650v")) {
+			key = "command_03_650v_voltage";
+		} else if (voltage.equals("700v")) {
+			key = "command_03_700v_voltage";
+		} else if (voltage.equals("7500v")) {
+			key = "command_03_750v_voltage";
+		}
+		return key;
+	}
 
+	public static String getSetFrepKey(String freq) {
+		String key = "10Hz";
+		if (freq.equals("1Hz")) {
+			key = "command_04_01Hz_freq";
+		} else if (freq.equals("2Hz")) {
+			key = "command_04_02Hz_freq";
+		} else if (freq.equals("5Hz")) {
+			key = "command_04_05Hz_freq";
+		} else if (freq.equals("10Hz")) {
+			key = "command_04_10Hz_freq";
+		}
+		return key;
+	}
 
 }
