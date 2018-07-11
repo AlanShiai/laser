@@ -36,6 +36,7 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.ImageData;
 import org.eclipse.swt.graphics.PaletteData;
 import org.eclipse.swt.graphics.RGB;
+import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
@@ -79,6 +80,8 @@ public class SettingView extends ViewPart {
 
 	static File originalDataSaveDir;
 	static File mergeDataSaveDir;
+	
+	static Text displayRedrawTime, displayFileModifyTime;
 
 
 	@Override
@@ -180,6 +183,9 @@ public class SettingView extends ViewPart {
 		int current1064 = 0, sum1064 = 0;
 
 		int x = 0, count = 0;
+		if ( ! MyFile.MEASURE_DISPLAY_FILE.exists()) {
+			return;
+		}
 		for (String line : ReadFile.readFile(MyFile.MEASURE_DISPLAY_FILE)) {
 			if ( ! line.trim().equals("") ) {
 				stringArray = line.split("\t");
@@ -264,18 +270,26 @@ public class SettingView extends ViewPart {
 
 			@Override
 			public void widgetSelected(SelectionEvent e) {
+				System.out.println("display start 1.");
+				System.out.println(MyFile.MEASURE_DISPLAY_FILE.getAbsolutePath());
+				System.out.println("display start 2.");
 				displayTimer = new Timer(true);
 				displayTimer.schedule(new TimerTask() {
 					@Override
 					public void run() {
+						if ( ! MyFile.MEASURE_DISPLAY_FILE.exists()) {
+							return;
+						}
 						if ( MyFile.MEASURE_DISPLAY_FILE.lastModified() != MyFile.MEASURE_DISPLAY_FILE_MODIFY_TIME ) {
 							dispalyImage = createDisplayImage();
+							MyFile.MEASURE_DISPLAY_FILE_MODIFY_TIME = MyFile.MEASURE_DISPLAY_FILE.lastModified();
 							Display.getDefault().asyncExec(new Runnable () {
 								public void run() {
 									dispalyCanvas.redraw();
+									displayRedrawTime.setText(MyDate.getLongDateString());
+									displayFileModifyTime.setText(MyDate.getLongDateString(new Date(MyFile.MEASURE_DISPLAY_FILE_MODIFY_TIME)));
 								}
 							});
-							MyFile.MEASURE_DISPLAY_FILE_MODIFY_TIME = MyFile.MEASURE_DISPLAY_FILE.lastModified();
 						}
 					}
 
@@ -294,12 +308,33 @@ public class SettingView extends ViewPart {
 
 			@Override
 			public void widgetSelected(SelectionEvent e) {
+				System.out.println("display stop.");
 				if (null != displayTimer) {
 					displayTimer.cancel();
 					displayTimer = null;
 				}
 			}
 		});
+		
+		Group group = new Group(parent, SWT.NONE);
+		group.setText("Redraw Time:");
+		group.setLayout(new FillLayout());
+		gridData = new GridData(SWT.FILL, SWT.FILL, true, false);
+		group.setLayoutData(gridData);
+		
+		group.setLayout(new FillLayout());
+		displayRedrawTime = new Text(group, SWT.NONE);
+		displayRedrawTime.setText(MyDate.getLongDateString());
+		
+		group = new Group(parent, SWT.NONE);
+		group.setText("Data file modification time:");
+		group.setLayout(new FillLayout());
+		gridData = new GridData(SWT.FILL, SWT.FILL, true, false);
+		group.setLayoutData(gridData);
+		
+		group.setLayout(new FillLayout());
+		displayFileModifyTime = new Text(group, SWT.NONE);
+		displayFileModifyTime.setText(MyDate.getLongDateString(new Date(MyFile.MEASURE_DISPLAY_FILE_MODIFY_TIME)));
 	}
 
 	private void createLaserSettingGroupArea(Composite parent) {
