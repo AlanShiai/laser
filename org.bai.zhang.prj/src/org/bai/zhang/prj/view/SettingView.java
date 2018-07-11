@@ -352,7 +352,7 @@ public class SettingView extends ViewPart {
 		laserInitButton.setLayoutData(gridData);
 		laserInitButton.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
-				WorkTestTask.sendCommand(Serial.COMMAND_01_ONLINE_ON);
+				WorkTestTask.sendConfigCommand(Serial.COMMAND_01_ONLINE_ON);
 			}
 		});
 
@@ -383,8 +383,8 @@ public class SettingView extends ViewPart {
 		laserVoltageFreqApplyButton.setLayoutData(gridData);
 		laserVoltageFreqApplyButton.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
-				WorkTestTask.sendCommand(Serial.getSetVoltageKey(voltageCombo.getText()));
-				WorkTestTask.sendCommand(Serial.getSetFrepKey(freqCombo.getText()));
+				WorkTestTask.sendConfigCommand(Serial.getSetVoltageKey(voltageCombo.getText()));
+				WorkTestTask.sendConfigCommand(Serial.getSetFrepKey(freqCombo.getText()));
 			}
 		});
 
@@ -393,9 +393,9 @@ public class SettingView extends ViewPart {
 		gridData = new GridData(SWT.FILL, SWT.FILL, true, true);
 		gridData.horizontalSpan = 2;
 		laserWarmUpButton.setLayoutData(gridData);
-		laserVoltageFreqApplyButton.addSelectionListener(new SelectionAdapter() {
+		laserWarmUpButton.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
-				WorkTestTask.sendCommand(Serial.COMMAND_05_WARM_UP_ON);
+				WorkTestTask.sendConfigCommand(Serial.COMMAND_05_WARM_UP_ON);
 			}
 		});
 
@@ -404,9 +404,9 @@ public class SettingView extends ViewPart {
 		gridData = new GridData(SWT.FILL, SWT.FILL, true, true);
 		gridData.horizontalSpan = 2;
 		laserLaunchButton.setLayoutData(gridData);
-		laserVoltageFreqApplyButton.addSelectionListener(new SelectionAdapter() {
+		laserLaunchButton.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
-				WorkTestTask.sendCommand(Serial.COMMAND_07_START_ON);
+				WorkTestTask.sendConfigCommand(Serial.COMMAND_07_START_ON);
 			}
 		});
 
@@ -415,9 +415,9 @@ public class SettingView extends ViewPart {
 		gridData = new GridData(SWT.FILL, SWT.FILL, true, true);
 		gridData.horizontalSpan = 2;
 		laserShutDownButton.setLayoutData(gridData);
-		laserVoltageFreqApplyButton.addSelectionListener(new SelectionAdapter() {
+		laserShutDownButton.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
-				WorkTestTask.sendCommand(Serial.COMMAND_08_START_OFF);
+				WorkTestTask.sendConfigCommand(Serial.COMMAND_08_START_OFF);
 			}
 		});
 
