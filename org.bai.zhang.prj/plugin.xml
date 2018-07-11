@@ -29,13 +29,6 @@
             restorable="false">
       </view>
       <view
-            class="org.bai.zhang.prj.view.RealtimeMeasureView"
-            icon="icons/menu2_16x16.png"
-            id="org.bai.zhang.prj.view.RealtimeMeasureView"
-            name="%menu2"
-            restorable="false">
-      </view>
-      <view
             class="org.bai.zhang.prj.view.SettingView"
             icon="icons/menu2_16x16.png"
             id="org.bai.zhang.prj.view.SettingView"
@@ -146,10 +139,6 @@
       <handler
             class="org.bai.zhang.prj.handlers.Menu1Handle"
             commandId="org.bai.zhang.prj.menu1.command">
-      </handler>
-      <handler
-            class="org.bai.zhang.prj.handlers.Menu2Handle"
-            commandId="org.bai.zhang.prj.menu2.command">
       </handler>
       <handler
             class="org.bai.zhang.prj.handlers.Menu3Handle"
