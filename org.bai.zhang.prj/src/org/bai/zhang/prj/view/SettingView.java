@@ -384,6 +384,7 @@ public class SettingView extends ViewPart {
 		laserVoltageFreqApplyButton.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
 				WorkTestTask.sendConfigCommand(Serial.getSetVoltageKey(voltageCombo.getText()));
+				WorkTestTask.sendConfigCommand(Serial.COMMAND_04_DIV_FREQ);
 				WorkTestTask.sendConfigCommand(Serial.getSetFrepKey(freqCombo.getText()));
 			}
 		});
