@@ -1,6 +1,9 @@
 package org.bai.zhang.prj.view;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -597,14 +600,14 @@ public class SettingView extends ViewPart {
 						File renameFile = new File(originalDataSaveDir, System.currentTimeMillis() + "");
 						System.out.println("rename : " + renameFile.getAbsolutePath());
 						MyFile.BLOCK.renameTo(renameFile);
-//						try {
-//							Files.copy(MyFile.BLOCK.toPath(), renameFile.toPath(), StandardCopyOption.ATOMIC_MOVE);
-//							if (null != displayTimer) {
-//								Files.copy(MyFile.BLOCK.toPath(), MyFile.MEASURE_DISPLAY_FILE.toPath(), StandardCopyOption.ATOMIC_MOVE);
-//							}
-//						} catch (IOException e) {
-//							e.printStackTrace();
-//						}
+						try {
+							Files.copy(MyFile.BLOCK.toPath(), renameFile.toPath(), StandardCopyOption.ATOMIC_MOVE);
+							if (null != displayTimer) {
+								Files.copy(MyFile.BLOCK.toPath(), MyFile.MEASURE_DISPLAY_FILE.toPath(), StandardCopyOption.ATOMIC_MOVE);
+							}
+						} catch (IOException e) {
+							e.printStackTrace();
+						}
 					}
 				}
 				nativeCode.closeDevice();
