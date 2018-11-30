@@ -1,4 +1,4 @@
-laserSerialPort			COM3
+laserSerialPort			COM4
 laserSerialPortBaudrate	19200
 defaultSerialCmdInterval 1
 

@@ -231,43 +231,17 @@ public class SettingView extends ViewPart {
 	}
 
 
-	private void createLaserDisplayGroupArea(Composite parent) {
-		parent.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
-		parent.setLayout(new GridLayout(1, false));
-
-		Composite displayLeftTop = new Composite(parent, SWT.BORDER);
-		//		displayLeftTop.setBackground(Display.getDefault().getSystemColor(SWT.COLOR_BLACK));
-		displayLeftTop.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
-
-		displayLeftTop.setLayout(new GridLayout(1, false));
-		dispalyCanvas = new Canvas (displayLeftTop, SWT.NONE);
-		dispalyCanvas.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
-		dispalyCanvas.addPaintListener (new PaintListener () {
-
-			@Override
-			public void paintControl(PaintEvent e) {
-				int canvasWidth = dispalyCanvas.getBounds().width;
-				int canvasHeight = dispalyCanvas.getBounds().height;
-
-				e.gc.drawImage (getDisplayImage(), 0, 0, getDisplayImage().getBounds().width, getDisplayImage().getBounds().height,
-						0, 0, canvasWidth, canvasHeight);
-
-			}
-
-		});
-	}
-
 	private void createLaserSettingControlGroupArea(Composite parent) {
 		parent.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		parent.setLayout(new GridLayout(1, false));
-
+	
 		startDisplayButton = new Button(parent, SWT.NONE);
 		startDisplayButton.setText("Start Dispaly");
 		GridData gridData = new GridData(SWT.FILL, SWT.FILL, true, false);
 		gridData.heightHint = 40;
 		startDisplayButton.setLayoutData(gridData);
 		startDisplayButton.addSelectionListener(new SelectionAdapter() {
-
+	
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				System.out.println("display start 1.");
@@ -292,20 +266,20 @@ public class SettingView extends ViewPart {
 							});
 						}
 					}
-
+	
 				}, 1000, 2000);
 			}
-
+	
 		});
-
-
+	
+	
 		stopDisplayButton = new Button(parent, SWT.NONE);
 		stopDisplayButton.setText("Stop Dispaly");
 		gridData = new GridData(SWT.FILL, SWT.FILL, true, false);
 		gridData.heightHint = 40;
 		stopDisplayButton.setLayoutData(gridData);
 		stopDisplayButton.addSelectionListener(new SelectionAdapter() {
-
+	
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				System.out.println("display stop.");
@@ -335,6 +309,32 @@ public class SettingView extends ViewPart {
 		group.setLayout(new FillLayout());
 		displayFileModifyTime = new Text(group, SWT.NONE);
 		displayFileModifyTime.setText(MyDate.getLongDateString(new Date(MyFile.MEASURE_DISPLAY_FILE_MODIFY_TIME)));
+	}
+
+	private void createLaserDisplayGroupArea(Composite parent) {
+		parent.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+		parent.setLayout(new GridLayout(1, false));
+
+		Composite displayLeftTop = new Composite(parent, SWT.BORDER);
+		//		displayLeftTop.setBackground(Display.getDefault().getSystemColor(SWT.COLOR_BLACK));
+		displayLeftTop.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+
+		displayLeftTop.setLayout(new GridLayout(1, false));
+		dispalyCanvas = new Canvas (displayLeftTop, SWT.NONE);
+		dispalyCanvas.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+		dispalyCanvas.addPaintListener (new PaintListener () {
+
+			@Override
+			public void paintControl(PaintEvent e) {
+				int canvasWidth = dispalyCanvas.getBounds().width;
+				int canvasHeight = dispalyCanvas.getBounds().height;
+
+				e.gc.drawImage (getDisplayImage(), 0, 0, getDisplayImage().getBounds().width, getDisplayImage().getBounds().height,
+						0, 0, canvasWidth, canvasHeight);
+
+			}
+
+		});
 	}
 
 	private void createLaserSettingGroupArea(Composite parent) {
@@ -598,15 +598,15 @@ public class SettingView extends ViewPart {
 					if (MyFile.BLOCK.exists()) {
 						File renameFile = new File(originalDataSaveDir, System.currentTimeMillis() + "");
 						System.out.println("rename : " + renameFile.getAbsolutePath());
-//						MyFile.BLOCK.renameTo(renameFile);
-						try {
-							Files.copy(MyFile.BLOCK.toPath(), renameFile.toPath(), StandardCopyOption.ATOMIC_MOVE);
-							if (null != displayTimer) {
-								Files.copy(MyFile.BLOCK.toPath(), MyFile.MEASURE_DISPLAY_FILE.toPath(), StandardCopyOption.ATOMIC_MOVE);
-							}
-						} catch (IOException e) {
-							e.printStackTrace();
-						}
+						MyFile.BLOCK.renameTo(renameFile);
+//						try {
+//							Files.copy(MyFile.BLOCK.toPath(), renameFile.toPath(), StandardCopyOption.ATOMIC_MOVE);
+//							if (null != displayTimer) {
+//								Files.copy(MyFile.BLOCK.toPath(), MyFile.MEASURE_DISPLAY_FILE.toPath(), StandardCopyOption.ATOMIC_MOVE);
+//							}
+//						} catch (IOException e) {
+//							e.printStackTrace();
+//						}
 					}
 				}
 				nativeCode.closeDevice();
@@ -643,7 +643,9 @@ public class SettingView extends ViewPart {
 						}
 					});
 
-					MergeDatum.merge(originalDataSaveDir, mergeDataSaveDir);
+					if (null != originalDataSaveDir) {
+						MergeDatum.merge(originalDataSaveDir, mergeDataSaveDir);
+					}
 				}
 			}, delay);
 		}
