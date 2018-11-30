@@ -1,0 +1,7 @@
+export RCP laser project
+	1, need update eclipse.ini to update java.library.path
+	2, need copy serial.txt
+	3, need copy dll from ZhangBai
+	4, need copy measureData for sample
+	5, need copy display/block.txt file.
+	6, note copy larseLib to C:\
