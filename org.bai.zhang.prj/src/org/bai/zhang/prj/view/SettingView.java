@@ -407,6 +407,7 @@ public class SettingView extends ViewPart {
 		laserLaunchButton.setLayoutData(gridData);
 		laserLaunchButton.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
+				WorkTestTask.sendConfigCommand(Serial.COMMAND_11_Q_ON);
 				WorkTestTask.sendConfigCommand(Serial.COMMAND_07_START_ON);
 			}
 		});
@@ -419,6 +420,7 @@ public class SettingView extends ViewPart {
 		laserShutDownButton.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
 				WorkTestTask.sendConfigCommand(Serial.COMMAND_08_START_OFF);
+				WorkTestTask.sendConfigCommand(Serial.COMMAND_12_Q_OFF);
 			}
 		});
 
