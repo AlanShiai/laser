@@ -15,7 +15,7 @@ import org.bai.zhang.prj.util.Serial;
 
 public abstract class WorkTestTask extends TimerTask {
 
-	private final static boolean isDebug = true;
+	private final static boolean isDebug = false;
 
 	private final static File LOG_FILE = new File(Log.LOG_FOLDER, "serial_command_history.log");
 
