@@ -335,7 +335,11 @@ public class SettingView extends ViewPart {
 
 				e.gc.drawImage (getDisplayImage(), 0, 0, getDisplayImage().getBounds().width, getDisplayImage().getBounds().height,
 						0, 0, canvasWidth, canvasHeight);
-
+				e.gc.drawText(" 10V", 5, 5);
+				e.gc.drawText(" 5V", 5, canvasHeight/4 + 5);
+				e.gc.drawText(" 0V", 5, canvasHeight/2 + 5);
+				e.gc.drawText(" -5V", 5, canvasHeight*3/4 + 5);
+				e.gc.drawText(" -10V", 5, canvasHeight - 20);
 			}
 
 		});
