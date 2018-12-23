@@ -291,6 +291,7 @@ public class SettingView extends ViewPart {
 		});
 		
 		Group group = new Group(parent, SWT.NONE);
+		group.setFont(getLargeFont());
 		group.setText("Redraw Time:");
 		group.setLayout(new FillLayout());
 		gridData = new GridData(SWT.FILL, SWT.FILL, true, false);
@@ -298,9 +299,11 @@ public class SettingView extends ViewPart {
 		
 		group.setLayout(new FillLayout());
 		displayRedrawTime = new Text(group, SWT.NONE);
+		displayRedrawTime.setFont(getLargeFont());
 		displayRedrawTime.setText(MyDate.getLongDateString());
 		
 		group = new Group(parent, SWT.NONE);
+		group.setFont(getLargeFont());
 		group.setText("Data file modification time:");
 		group.setLayout(new FillLayout());
 		gridData = new GridData(SWT.FILL, SWT.FILL, true, false);
@@ -308,6 +311,7 @@ public class SettingView extends ViewPart {
 		
 		group.setLayout(new FillLayout());
 		displayFileModifyTime = new Text(group, SWT.NONE);
+		displayFileModifyTime.setFont(getLargeFont());
 		displayFileModifyTime.setText(MyDate.getLongDateString(new Date(MyFile.MEASURE_DISPLAY_FILE_MODIFY_TIME)));
 	}
 
@@ -762,8 +766,8 @@ public class SettingView extends ViewPart {
 		parent.setLayout(new GridLayout(1, false));
 
 		testDataTable = new Table (parent, SWT.MULTI | SWT.BORDER | SWT.FULL_SELECTION);
-		if ( null != getFont() && testDataTable.getFont() != getFont()) {
-			testDataTable.setFont(getFont());
+		if ( null != getLargeFont() && testDataTable.getFont() != getLargeFont()) {
+			testDataTable.setFont(getLargeFont());
 		}
 		testDataTable.setLinesVisible (true);
 		testDataTable.setHeaderVisible (true);
@@ -782,7 +786,7 @@ public class SettingView extends ViewPart {
 		}
 	}
 
-	private Font getFont() {
+	private Font getLargeFont() {
 		if ( null == largeFont) {
 			Font systemFont = Display.getDefault().getSystemFont();
 			FontData[] fontData = systemFont.getFontData();
