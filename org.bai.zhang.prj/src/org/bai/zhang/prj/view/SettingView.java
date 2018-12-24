@@ -57,8 +57,6 @@ public class SettingView extends ViewPart {
 
 	public static final String ID = "org.bai.zhang.prj.view.SettingView";
 
-	static Button startDisplayButton, stopDisplayButton;
-
 	static Button startButton, stopButton;
 
 	static Text startTime, interval, endTime;
@@ -232,64 +230,11 @@ public class SettingView extends ViewPart {
 
 
 	private void createLaserSettingControlGroupArea(Composite parent) {
+		GridData gridData;
+		
 		parent.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		parent.setLayout(new GridLayout(1, false));
 	
-		startDisplayButton = new Button(parent, SWT.NONE);
-		startDisplayButton.setText("Start Dispaly");
-		GridData gridData = new GridData(SWT.FILL, SWT.FILL, true, false);
-		gridData.heightHint = 40;
-		startDisplayButton.setLayoutData(gridData);
-		startDisplayButton.addSelectionListener(new SelectionAdapter() {
-	
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				System.out.println("display start 1.");
-				System.out.println(MyFile.MEASURE_DISPLAY_FILE.getAbsolutePath());
-				System.out.println("display start 2.");
-				displayTimer = new Timer(true);
-				displayTimer.schedule(new TimerTask() {
-					@Override
-					public void run() {
-						if ( ! MyFile.MEASURE_DISPLAY_FILE.exists()) {
-							return;
-						}
-						if ( MyFile.MEASURE_DISPLAY_FILE.lastModified() != MyFile.MEASURE_DISPLAY_FILE_MODIFY_TIME ) {
-							dispalyImage = createDisplayImage();
-							MyFile.MEASURE_DISPLAY_FILE_MODIFY_TIME = MyFile.MEASURE_DISPLAY_FILE.lastModified();
-							Display.getDefault().asyncExec(new Runnable () {
-								public void run() {
-									dispalyCanvas.redraw();
-									displayRedrawTime.setText(MyDate.getLongDateString());
-									displayFileModifyTime.setText(MyDate.getLongDateString(new Date(MyFile.MEASURE_DISPLAY_FILE_MODIFY_TIME)));
-								}
-							});
-						}
-					}
-	
-				}, 1000, 2000);
-			}
-	
-		});
-	
-	
-		stopDisplayButton = new Button(parent, SWT.NONE);
-		stopDisplayButton.setText("Stop Dispaly");
-		gridData = new GridData(SWT.FILL, SWT.FILL, true, false);
-		gridData.heightHint = 40;
-		stopDisplayButton.setLayoutData(gridData);
-		stopDisplayButton.addSelectionListener(new SelectionAdapter() {
-	
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				System.out.println("display stop.");
-				if (null != displayTimer) {
-					displayTimer.cancel();
-					displayTimer = null;
-				}
-			}
-		});
-		
 		Group group = new Group(parent, SWT.NONE);
 		group.setFont(getLargeFont());
 		group.setText("Redraw Time:");
