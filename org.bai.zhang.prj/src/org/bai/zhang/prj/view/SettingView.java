@@ -1,9 +1,6 @@
 package org.bai.zhang.prj.view;
 
 import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -66,16 +63,16 @@ public class SettingView extends ViewPart {
 
 	static Timer workflowTimer;
 	static Timer collectDataTimer;
-	static Timer displayTimer;
 
 	static Canvas dispalyCanvas;
+	static boolean shouldStopCollectDataAndDisplay = false;
 
 	static Font largeFont;
 
 	static List<WorkTestObject> workTestObjects;
 
 	static boolean shouldStopCollectData = false;
-
+	
 	static File originalDataSaveDir;
 	static File mergeDataSaveDir;
 	
@@ -367,6 +364,51 @@ public class SettingView extends ViewPart {
 					e1.printStackTrace();
 				}
 				WorkTestTask.sendConfigCommand(Serial.COMMAND_11_Q_ON);
+				try {
+					Thread.sleep(5000);
+				} catch (InterruptedException e1) {
+					e1.printStackTrace();
+				}
+				startCollectDataAndEnableDisplay();
+			}
+
+			private void startCollectDataAndEnableDisplay() {
+				System.out.println("display start 1.");
+				System.out.println(MyFile.MEASURE_DISPLAY_FILE.getAbsolutePath());
+				System.out.println("display start 2.");
+				
+				shouldStopCollectDataAndDisplay = false;
+				
+				System.loadLibrary("DataCollectLib");  
+				NativeClass nativeCode = new NativeClass();  
+				nativeCode.openDevice(); 
+
+				while ( ! shouldStopCollectDataAndDisplay ) {
+					try {
+						Thread.sleep(100);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+						nativeCode.closeDevice();
+					}
+					nativeCode.collectBlockTriggered();
+					
+					if (MyFile.BLOCK.exists()) {
+						MyFile.BLOCK.renameTo(MyFile.MEASURE_DISPLAY_FILE);
+						dispalyImage = createDisplayImage();
+						MyFile.MEASURE_DISPLAY_FILE_MODIFY_TIME = MyFile.MEASURE_DISPLAY_FILE.lastModified();
+						Display.getDefault().asyncExec(new Runnable () {
+							public void run() {
+								dispalyCanvas.redraw();
+								displayRedrawTime.setText(MyDate.getLongDateString());
+								displayFileModifyTime.setText(MyDate.getLongDateString(new Date(MyFile.MEASURE_DISPLAY_FILE_MODIFY_TIME)));
+							}
+						});
+					}
+				}
+				nativeCode.closeDevice();
+
+				System.out.println("finish");
+				
 			}
 		});
 
@@ -384,6 +426,12 @@ public class SettingView extends ViewPart {
 					e1.printStackTrace();
 				}
 				WorkTestTask.sendConfigCommand(Serial.COMMAND_08_START_OFF);
+				stopCollectDataAndEnableDisplay();
+			}
+
+			private void stopCollectDataAndEnableDisplay() {
+				System.out.println("display stop.");
+				shouldStopCollectDataAndDisplay = true;
 			}
 		});
 
@@ -530,6 +578,7 @@ public class SettingView extends ViewPart {
 		collectDataTimer = new Timer(true);
 
 		shouldStopCollectData = false;
+		shouldStopCollectDataAndDisplay = true;
 
 		collectDataTimer.schedule(new TimerTask() {
 
@@ -565,14 +614,14 @@ public class SettingView extends ViewPart {
 						File renameFile = new File(originalDataSaveDir, System.currentTimeMillis() + "");
 						System.out.println("rename : " + renameFile.getAbsolutePath());
 						MyFile.BLOCK.renameTo(renameFile);
-						try {
-							Files.copy(MyFile.BLOCK.toPath(), renameFile.toPath(), StandardCopyOption.ATOMIC_MOVE);
-							if (null != displayTimer) {
-								Files.copy(MyFile.BLOCK.toPath(), MyFile.MEASURE_DISPLAY_FILE.toPath(), StandardCopyOption.ATOMIC_MOVE);
-							}
-						} catch (IOException e) {
-							e.printStackTrace();
-						}
+//						try {
+//							Files.copy(MyFile.BLOCK.toPath(), renameFile.toPath(), StandardCopyOption.ATOMIC_MOVE);
+//							if (null != displayTimer) {
+//								Files.copy(MyFile.BLOCK.toPath(), MyFile.MEASURE_DISPLAY_FILE.toPath(), StandardCopyOption.ATOMIC_MOVE);
+//							}
+//						} catch (IOException e) {
+//							e.printStackTrace();
+//						}
 					}
 				}
 				nativeCode.closeDevice();
