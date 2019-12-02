@@ -484,6 +484,8 @@ public class View extends ViewPart {
 					}
 
 				}
+				
+				e.gc.drawLine(40, 130, 800, 130);
 
 			}
 		});
